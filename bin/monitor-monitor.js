@@ -52,13 +52,13 @@ async function applySetup(setupKey) {
     return false
   }
 
-  lastSetupKey = setupKey
-
   const { name, xrandrCommand } = monitorSetups[setupKey]
   exec(xrandrCommand, (err, stdout) => {
     if (err) {
       console.error(err)
+      process.exit(1)
     }
+    lastSetupKey = setupKey
   })
 
   return name
@@ -67,10 +67,10 @@ async function applySetup(setupKey) {
 async function updateSetup() {
 
   const setupKey = await getCurrentSetupKey()
-  console.log('Current monitor setup is', setupKey)
 
   const appliedSetupName = await applySetup(setupKey)
   if (appliedSetupName) {
+    console.log('Current monitor setup is', setupKey)
     console.log('Monitor configuration was applied for', appliedSetupName)
   }
 }
