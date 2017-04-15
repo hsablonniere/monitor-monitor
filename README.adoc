@@ -46,6 +46,8 @@ Write this in `/etc/systemd/system/monitor-monitor.service`:
 ----
 [Unit]
 Description=Monitor monitor
+Wants=dbus.service
+After=dbus.service
 
 [Service]
 ExecStart=/path/to/node /path/to/monitor-monitor /path/to/monitor-setups.json
@@ -65,8 +67,14 @@ And the run the following commands:
 
 [source, base]
 ----
-chmod +x .config/systemd/user/monitor-monitor.service
 systemctl --user enable monitor-monitor.service
 sudo systemctl daemon-reload
 systemctl --user start monitor-monitor
 ----
+
+Sources:
+
+* https://www.axllent.org/docs/view/nodejs-service-with-systemd/
+* https://wiki.archlinux.org/index.php/Systemd/User
+* https://immae.eu/blog/2014/05/10/gerer-sa-session-avec-systemd/
+*
