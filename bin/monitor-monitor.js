@@ -15,6 +15,7 @@ let monitorSetups
 program
   .version('1.0.0')
   .arguments('<jsonConfigFile>')
+  .option('-d, --delay <n>', 'Start the program with a delay (in secs)', parseInt)
   .action((jsonConfigFile) => {
     if (jsonConfigFile) {
       const cwd = process.cwd()
@@ -24,6 +25,9 @@ program
     }
   })
   .parse(process.argv)
+
+// DELAY THE STARTUP (in seconds)
+const startupDelay = (program.delay || 8)
 
 if (monitorSetups == null) {
   console.error('Missing JSON config file for monitor setups!')
@@ -75,11 +79,14 @@ async function updateSetup() {
   }
 }
 
-// DO IT NOW
-updateSetup().catch((e) => console.error(e))
+// ADD SOME DELAY
+setTimeout(() => {
 
-// DO IT ON EVENT CHANGE
-const monitorUdevDevices = udev.monitor()
-monitorUdevDevices.on('add', () => updateSetup())
-monitorUdevDevices.on('remove', () => updateSetup())
-monitorUdevDevices.on('change', () => updateSetup())
+  updateSetup().catch((e) => console.error(e))
+
+  // DO IT ON EVENT CHANGE
+  const monitorUdevDevices = udev.monitor()
+  monitorUdevDevices.on('add', () => updateSetup())
+  monitorUdevDevices.on('remove', () => updateSetup())
+  monitorUdevDevices.on('change', () => updateSetup())
+}, startupDelay * 1000)
