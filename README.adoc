@@ -1,0 +1,38 @@
+= monitor-monitor
+
+This program monitors my monitors (plugged/unplugged) and applies the desired configuration.
+
+== Install
+
+[source, bash]
+----
+npm install -g monitor-monitor
+----
+
+== Usage
+
+Use it like this:
+
+[source, bash]
+----
+monitor-monitor monitor-setups.json
+----
+
+`monitor-setups.json` is a JSON file containing something like this:
+
+[source, json]
+----
+{
+    "LG/1178/unknown": {
+        "name": "laptop-only",
+        "xrandrCommand": "xrandr --output eDP1 --primary --mode 2560x1440 --pos 0x0 --rotate normal"
+    },
+    "LG/1178/unknown,Iiyama/26140/PLX2783H-DP": {
+        "name": "home",
+        "xrandrCommand": "xrandr --output eDP1 --primary --mode 2560x1440 --pos 0x1512 --rotate normal --output HDMI2 --mode 1920x1080 --scale 1.4x1.4 --panning 2688x1512"
+    }
+}
+----
+
+The keys are combinations of screens identifiers (vendor, productCode & modelName from EDID) separated by comas.
+For each monitor setup, you need to specify a `name` and a command to execute (an xrandr command preferably).
