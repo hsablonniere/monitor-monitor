@@ -36,3 +36,33 @@ monitor-monitor monitor-setups.json
 
 The keys are combinations of screens identifiers (vendor, productCode & modelName from EDID) separated by comas.
 For each monitor setup, you need to specify a `name` and a command to execute (an xrandr command preferably).
+
+== Set up systemd service
+
+Here an example of a systemd service. Write this in `/etc/systemd/system/monitor-monitor.service`:
+
+[source, config]
+----
+[Unit]
+Description=Monitor monitor
+
+After=user-1000.slice
+
+[Service]
+ExecStart=/path/to/node /path/to/monitor-monitor /path/to/monitor-setups.json
+Restart=always
+# Restart service after 10 seconds if node service crashes
+RestartSec=10
+# Output to syslog
+StandardOutput=syslog
+# Output to syslog
+StandardError=syslog
+SyslogIdentifier=monitor-monitor
+User=user
+#Group=group
+Environment=DISPLAY=:0.0
+WorkingDirectory=/path/to/home
+
+[Install]
+WantedBy=multi-user.target
+----
