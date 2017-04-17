@@ -56,6 +56,11 @@ async function applySetup(setupKey) {
     return false
   }
 
+  if (monitorSetups[setupKey] == null) {
+    console.log(`Unknown setup key ${setupKey}`)
+    return
+  }
+
   const { name, xrandrCommand } = monitorSetups[setupKey]
   exec(xrandrCommand, (err, stdout) => {
     if (err) {
