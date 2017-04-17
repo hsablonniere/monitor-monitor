@@ -27,7 +27,7 @@ program
   .parse(process.argv)
 
 // DELAY THE STARTUP (in seconds)
-const startupDelay = (program.delay || 8)
+const { delay: startupDelay = 0 } = program
 
 if (monitorSetups == null) {
   console.error('Missing JSON config file for monitor setups!')
