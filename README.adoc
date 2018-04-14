@@ -40,7 +40,7 @@ For each monitor setup, you need to specify a `name` and a command to execute (a
 == Set up systemd service
 
 If you want this to run in the background, you could set up a user systemd service.
-Write this in `/etc/systemd/system/monitor-monitor.service`:
+Write this in `/etc/systemd/user/monitor-monitor.service`:
 
 [source, config]
 ----
