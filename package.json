@@ -11,8 +11,8 @@
     },
     "preferGlobal": true,
     "dependencies": {
-        "commander": "2.9.0",
+        "commander": "2.19.0",
         "edid-reader": "0.2.3",
-        "udev": "0.4.0"
+        "udev": "cheery/node-udev#9d3312c9f774686f115e2b3623ccccd45e6eb82a"
     }
 }
